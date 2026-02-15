@@ -1,0 +1,105 @@
+spring:
+  application:
+    name: court
+
+  security:
+    cors:
+      allowed-origins: "http://localhost:3000,"
+      allowed-methods: "*"
+      allowed-headers: "*"
+
+  # JPA configuration
+  datasource:
+    url: ${SPRING_DATASOURCE_URL}
+    username: ${SPRING_DATASOURCE_USERNAME}
+    password: ${SPRING_DATASOURCE_PASSWORD}
+    driver-class-name: org.postgresql.Driver
+    tomcat:
+      test-on-borrow: true
+      validation-query: SELECT 1
+    hikari:
+      maximum-pool-size: 16
+      minimum-idle: 8
+      connection-timeout: 30000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+
+  jpa:
+    hibernate:
+      ddl-auto: validate
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+    show-sql: true
+    properties:
+      hibernate:
+        jdbc:
+          batch_size: 10
+        order_updates: true
+        order_inserts: true
+        format_sql: true
+        generate_statistics: true
+        default_schema: postgres
+
+  kafka:
+    consumer:
+      bootstrap-servers: kafka:9092
+
+    producer:
+      bootstrap-servers: kafka:9092
+      acks: -1
+
+  # Flyway configuration
+  flyway:
+    baseline-on-migrate: true
+    enabled: true
+    validate-on-migrate: true
+    baseline-version: 0
+    schemas: postgres
+
+  ai:
+    openai:
+      api-key: ${GROQ_API_KEY}
+      base-url: https://api.groq.com/openai
+      chat:
+        options:
+          model: openai/gpt-oss-120b
+
+    ollama:
+      base-url: http://ollama:11434
+      embedding:
+        model: nomic-embed-text
+        dimensions: 768
+
+    vectorstore:
+      pgvector:
+        initialize-schema: false
+
+# Tomcat configuration
+server:
+  port: 7070
+  tomcat:
+    connection-timeout: 10000
+    accept-count: 100
+    max-connections: 2000
+    keep-alive-timeout: 60000
+    threads:
+      max: 1000
+      min-spare: 200
+
+  compression:
+    enabled: true
+    mime-types: application/json
+
+logging:
+  config: classpath:log4j2.yml
+
+jwt:
+  secret-key: ${JWT_SECRET}
+  access-ttl: 900000
+  refresh-ttl: 900000
+
+services:
+  gcp:
+    url: "http://localhost:8070/api/v1/gcp"
+    login: ""
+    password: ""
