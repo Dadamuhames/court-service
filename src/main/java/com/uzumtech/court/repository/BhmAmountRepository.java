@@ -8,6 +8,6 @@ import java.util.Optional;
 
 public interface BhmAmountRepository extends JpaRepository<BhmAmountEntity, Long> {
 
-    @Query("SELECT b FROM BhmAmountEntity b WHERE b.isActive = true ORDER BY id DESC LIMIT 1")
+    @Query("SELECT b FROM BhmAmountEntity b WHERE b.isActive = true ORDER BY b.id DESC LIMIT 1")
     Optional<BhmAmountEntity> findCurrentAmount();
 }

@@ -1,8 +1,6 @@
 package com.uzumtech.court.mapper;
 
 
-import com.uzumtech.court.dto.event.PenaltyWebhookEvent;
-import com.uzumtech.court.dto.request.PenaltyWebhookRequest;
 import com.uzumtech.court.dto.request.admin.ExternalServiceCreateRequest;
 import com.uzumtech.court.dto.response.admin.ExternalServiceAdminResponse;
 import com.uzumtech.court.entity.ExternalServiceEntity;
@@ -20,6 +18,4 @@ public interface ExternalServiceMapper {
     ExternalServiceEntity requestToEntity(ExternalServiceCreateRequest request, String passwordEncrypted, String webhookSecretEncrypted);
 
     ExternalServiceAdminResponse entityToResponse(ExternalServiceEntity entity);
-
-    PenaltyWebhookRequest webhookEventToRequest(PenaltyWebhookEvent event);
 }
