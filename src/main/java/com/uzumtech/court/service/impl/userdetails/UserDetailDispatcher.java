@@ -2,7 +2,7 @@ package com.uzumtech.court.service.impl.userdetails;
 
 import com.uzumtech.court.constant.enums.ErrorCode;
 import com.uzumtech.court.constant.enums.Role;
-import com.uzumtech.court.exception.RoleNotSupportedException;
+import com.uzumtech.court.exception.user.RoleNotSupportedException;
 import com.uzumtech.court.service.CustomUserDetailsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,7 +12,7 @@ import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
-public class    UserDetailDispatcher {
+public class UserDetailDispatcher {
     private final Map<Role, CustomUserDetailsService> customUserDetailServices;
 
     public UserDetails loadUserByLoginAndRole(String login, Role role)

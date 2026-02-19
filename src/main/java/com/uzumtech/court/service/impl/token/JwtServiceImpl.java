@@ -4,7 +4,7 @@ import com.uzumtech.court.configuration.property.JwtProperty;
 import com.uzumtech.court.constant.enums.ErrorCode;
 import com.uzumtech.court.constant.enums.Role;
 import com.uzumtech.court.entity.base.CustomUserDetails;
-import com.uzumtech.court.exception.JwtMalformedException;
+import com.uzumtech.court.exception.user.JwtMalformedException;
 import com.uzumtech.court.service.JwtService;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;

@@ -5,6 +5,6 @@ import com.uzumtech.court.constant.enums.ErrorType;
 
 public class HttpRequestInvalidException extends NonTransientException {
     public HttpRequestInvalidException(ErrorCode error, Exception ex) {
-        super(error.getCode(), ex.getMessage(), ErrorType.INTERNAL, null);
+        super(error.getCode(), ex.getMessage(), ErrorType.INTERNAL);
     }
 }

@@ -5,6 +5,7 @@ import com.uzumtech.court.dto.response.GcpResponse;
 import com.uzumtech.court.entity.UserEntity;
 import com.uzumtech.court.mapper.UserMapper;
 import com.uzumtech.court.repository.UserRepository;
+import com.uzumtech.court.service.UserHelperService;
 import com.uzumtech.court.service.UserRegisterService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,11 +15,11 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 public class UserRegisterServiceImpl implements UserRegisterService {
     private final UserRepository userRepository;
+    private final UserHelperService userHelperService;
     private final UserMapper userMapper;
     private final GcpAdapter gcpAdapter;
 
     @Override
-    @Transactional
     public UserEntity findUserByPinflOrRegister(String pinfl) {
         UserEntity user = userRepository.findByPinfl(pinfl).orElse(null);
 
@@ -28,12 +29,11 @@ public class UserRegisterServiceImpl implements UserRegisterService {
     }
 
     @Override
-    @Transactional
     public UserEntity registerUserByPinfl(String pinfl) {
         GcpResponse gcpResponse = gcpAdapter.fetchUserInfoByPinfl(pinfl);
 
         UserEntity newUser = userMapper.gcpResponseToUserEntity(gcpResponse);
 
-        return userRepository.save(newUser);
+        return userHelperService.saveUser(newUser);
     }
 }

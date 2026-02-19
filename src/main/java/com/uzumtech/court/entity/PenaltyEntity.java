@@ -31,10 +31,6 @@ public class PenaltyEntity extends BaseEntity {
     @OnDelete(action = OnDeleteAction.RESTRICT)
     private OffenseEntity offense;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "judge_id", nullable = false, updatable = false, foreignKey = @ForeignKey(name = "fk_judge"))
-    private JudgeEntity judge;
-
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, columnDefinition = "type")
     @JdbcTypeCode(SqlTypes.NAMED_ENUM)

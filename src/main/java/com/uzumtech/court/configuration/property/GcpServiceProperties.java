@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 @Getter
 @Setter
 @Configuration
-@ConfigurationProperties(prefix = "gcp")
+@ConfigurationProperties(prefix = "services.gcp")
 public class GcpServiceProperties {
     private String url;
 

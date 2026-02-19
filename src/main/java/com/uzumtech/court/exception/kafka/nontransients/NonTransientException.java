@@ -12,7 +12,7 @@ public class NonTransientException extends ApplicationException {
     }
 
 
-    public NonTransientException(int code, String message, ErrorType errorType, HttpStatus status) {
-        super(code, message, errorType, status);
+    public NonTransientException(int code, String message, ErrorType errorType) {
+        super(code, message, errorType, null);
     }
 }

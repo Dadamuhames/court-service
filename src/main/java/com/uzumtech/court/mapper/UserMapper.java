@@ -12,5 +12,11 @@ import org.mapstruct.ReportingPolicy;
 public interface UserMapper {
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "fullName", expression = "java(concatName(gcpResponse))")
+    @Mapping(target = "pinfl", source = "gcpResponse.personalIdentificationNumber")
     UserEntity gcpResponseToUserEntity(GcpResponse gcpResponse);
+
+    default String concatName(GcpResponse gcpResponse) {
+        return String.format("%s %s", gcpResponse.name(), gcpResponse.surname());
+    }
 }

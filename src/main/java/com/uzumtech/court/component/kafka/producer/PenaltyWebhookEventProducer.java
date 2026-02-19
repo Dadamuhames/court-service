@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 public class PenaltyWebhookEventProducer {
     private final KafkaTemplate<String, Object> kafkaTemplate;
 
-    public void publishWebhookEvent(final PenaltyWebhookEvent webhookEvent) {
+    public void publishWebhookEvent(PenaltyWebhookEvent webhookEvent) {
         kafkaTemplate.send(KafkaConstants.WEBHOOK_TOPIC, webhookEvent);
     }
 }

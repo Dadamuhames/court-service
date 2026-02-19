@@ -40,7 +40,7 @@ public class SecurityConfiguration {
             .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
             .authorizeHttpRequests(
                 auth ->
-                    auth.requestMatchers("/api/v1/court/judge/auth/**", "/api/v1/court/admin/auth/**", "/api/v1/court/external-service/auth/**").permitAll()
+                    auth.requestMatchers("/api/v1/court/judge/auth/**", "/api/v1/court/admin/auth/**", "/api/v1/court/external-service/auth/**", "/api/v1/court/notification-service/**").permitAll()
                         .requestMatchers("/api/v1/court/judge/**")
                         .hasRole("JUDGE")
                         .requestMatchers("/api/v1/court/admin/**")

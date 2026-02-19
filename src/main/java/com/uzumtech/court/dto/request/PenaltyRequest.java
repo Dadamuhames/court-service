@@ -9,6 +9,7 @@ import java.time.OffsetDateTime;
 
 public record PenaltyRequest(@NotNull(message = "offenseId required") Long offenseId,
                              @NotNull(message = "type required") PenaltyType type,
+                             @NotBlank(message = "qualification required") String qualification,
                              @NotNull(message = "bhmMultiplier required") BigDecimal bhmMultiplier,
                              @NotNull(message = "dueDate required") OffsetDateTime dueDate,
                              @NotBlank(message = "courtDecisionText required") String courtDecisionText,

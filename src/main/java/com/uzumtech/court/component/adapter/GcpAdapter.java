@@ -5,13 +5,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestClient;
 
+import java.time.LocalDate;
+
 @Component
 @RequiredArgsConstructor
 public class GcpAdapter {
     private final RestClient gcpRestClient;
 
     public GcpResponse fetchUserInfoByPinfl(final String pinfl) {
-        String url = String.format("/users/by-pinfl/%s", pinfl);
+        String url = String.format("/users/by-pi/%s", pinfl);
 
         var response = gcpRestClient.get().uri(url).retrieve().toEntity(GcpResponse.class);
 

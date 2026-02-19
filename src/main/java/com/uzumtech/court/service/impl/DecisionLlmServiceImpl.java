@@ -16,7 +16,6 @@ import org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvi
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.openai.OpenAiChatModel;
 import org.springframework.ai.openai.OpenAiChatOptions;
-import org.springframework.ai.openai.api.ResponseFormat;
 import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
@@ -35,6 +34,7 @@ public class DecisionLlmServiceImpl implements DecisionLlmService {
     private final OpenAiChatModel chatModel;
     private final VectorStore vectorStore;
     private final ObjectMapper objectMapper;
+    private final OpenAiChatOptions chatOptions;
 
 
     @Value("classpath:/ai/prompts/decision_ai_prompt.txt")
@@ -64,15 +64,8 @@ public class DecisionLlmServiceImpl implements DecisionLlmService {
     @Override
     public DecisionOutput getAIDecision(DecisionPrompt prompt) {
 
-        OpenAiChatOptions options =
-            OpenAiChatOptions.builder()
-                .temperature(0.1)
-                .topP(0.1)
-                .responseFormat(ResponseFormat.builder().type(ResponseFormat.Type.JSON_OBJECT).build())
-                .build();
-
         ChatResponse chatResponse = ChatClient.builder(chatModel)
-            .build().prompt().options(options)
+            .build().prompt().options(chatOptions)
             .advisors(QuestionAnswerAdvisor.builder(vectorStore).build())
             .system(systemPrompt)
             .user(objectMapper.writeValueAsString(prompt))
@@ -80,7 +73,7 @@ public class DecisionLlmServiceImpl implements DecisionLlmService {
 
 
         if (chatResponse == null) {
-            throw new DecisionAiException(ErrorCode.DECISION_AI_REQUEST_INVALID);
+            throw new DecisionAiException(ErrorCode.DECISION_AI_REQUEST_INVALID_CODE);
         }
 
         return objectMapper.readValue(chatResponse.getResult().getOutput().getText(), DecisionOutput.class);
