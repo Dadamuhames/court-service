@@ -3,11 +3,13 @@ package com.uzumtech.court.service.impl;
 import com.uzumtech.court.dto.request.OffenseRegistrationRequest;
 import com.uzumtech.court.dto.response.OffenseResponse;
 import com.uzumtech.court.entity.ExternalServiceEntity;
+import com.uzumtech.court.entity.JudgeEntity;
 import com.uzumtech.court.entity.OffenseEntity;
 import com.uzumtech.court.entity.UserEntity;
-import com.uzumtech.court.exception.OffenseNotFoundException;
-import com.uzumtech.court.exception.OffenseRegisteredException;
+import com.uzumtech.court.exception.offense.OffenseNotFoundException;
+import com.uzumtech.court.exception.offense.OffenseRegisteredException;
 import com.uzumtech.court.mapper.OffenseMapper;
+import com.uzumtech.court.repository.JudgeRepository;
 import com.uzumtech.court.repository.OffenseRepository;
 import com.uzumtech.court.service.UserRegisterService;
 import com.uzumtech.court.utils.CourtCaseNumberUtils;
@@ -39,6 +41,9 @@ class OffenseServiceImplTest {
     private CourtCaseNumberUtils courtCaseNumberUtils;
     @Mock
     private OffenseMapper offenseMapper;
+
+    @Mock
+    private JudgeRepository judgeRepository;
 
     @InjectMocks
     private OffenseServiceImpl offenseService;
@@ -87,14 +92,18 @@ class OffenseServiceImplTest {
     @Test
     void register_ShouldSaveAndReturnResponse_WhenValidRequest() {
         UserEntity mockUser = new UserEntity();
+        JudgeEntity mockJudge = new JudgeEntity();
+
         String mockCaseNumber = "CASE-2024-001";
         OffenseEntity mockOffense = new OffenseEntity();
+
         OffenseResponse expectedResponse = new OffenseResponse(1L, 1L, mockCaseNumber, OffsetDateTime.now());
 
         when(offenseRepository.existsByExternalId(request.legalOffenseId())).thenReturn(false);
-        when(userRegisterService.registerUserByPinfl(request.offenderPinfl())).thenReturn(mockUser);
+        when(userRegisterService.findUserByPinflOrRegister(request.offenderPinfl())).thenReturn(mockUser);
         when(courtCaseNumberUtils.generateProtocolNumber()).thenReturn(mockCaseNumber);
-        when(offenseMapper.requestToEntity(request, mockUser, mockCaseNumber)).thenReturn(mockOffense);
+        when(judgeRepository.findRandomJudge()).thenReturn(Optional.of(mockJudge));
+        when(offenseMapper.requestToEntity(request, mockUser, mockJudge, mockCaseNumber)).thenReturn(mockOffense);
         when(offenseRepository.save(any(OffenseEntity.class))).thenReturn(mockOffense);
         when(offenseMapper.entityToResponse(mockOffense)).thenReturn(expectedResponse);
 

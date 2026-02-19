@@ -3,7 +3,7 @@ package com.uzumtech.court.service.impl.admin;
 import com.uzumtech.court.dto.request.admin.JudgeRequest;
 import com.uzumtech.court.dto.response.admin.JudgeResponse;
 import com.uzumtech.court.entity.JudgeEntity;
-import com.uzumtech.court.exception.JudgeEmailExistsException;
+import com.uzumtech.court.exception.judge.JudgeEmailExistsException;
 import com.uzumtech.court.mapper.JudgeMapper;
 import com.uzumtech.court.repository.JudgeRepository;
 import org.junit.jupiter.api.BeforeEach;

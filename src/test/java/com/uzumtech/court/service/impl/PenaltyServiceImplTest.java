@@ -10,11 +10,12 @@ import com.uzumtech.court.entity.BhmAmountEntity;
 import com.uzumtech.court.entity.JudgeEntity;
 import com.uzumtech.court.entity.OffenseEntity;
 import com.uzumtech.court.entity.PenaltyEntity;
-import com.uzumtech.court.exception.OffenseNotFoundException;
+import com.uzumtech.court.exception.offense.OffenseNotFoundException;
 import com.uzumtech.court.mapper.PenaltyMapper;
 import com.uzumtech.court.repository.OffenseRepository;
 import com.uzumtech.court.repository.PenaltyRepository;
 import com.uzumtech.court.service.BhmService;
+import com.uzumtech.court.service.PenaltyHelperService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -36,6 +37,10 @@ class PenaltyServiceImplTest {
 
     @Mock
     private OffenseRepository offenseRepository;
+
+    @Mock
+    private PenaltyHelperService penaltyHelperService;
+
     @Mock
     private PenaltyRepository penaltyRepository;
     @Mock
@@ -61,19 +66,22 @@ class PenaltyServiceImplTest {
         mockJudge = new JudgeEntity();
         mockOffense = new OffenseEntity();
 
+        mockJudge.setId(1L);
+        mockOffense.setJudge(mockJudge);
+
         sharedRequest = new PenaltyRequest(
             500L,
             PenaltyType.FINE,
+            "267 article",
             new BigDecimal("2.5"),
             OffsetDateTime.now().plusDays(30),
             "Decision details here",
             0
         );
 
-        webhookEvent = new PenaltyWebhookEvent(1L, 100L, 10L, PenaltyType.FINE,
-            340000L, new BigDecimal("2.5"), OffsetDateTime.now(), "Text", 0);
+        webhookEvent = new PenaltyWebhookEvent(1L);
 
-        response = new PenaltyResponse(1L, PenaltyType.FINE, PenaltyStatus.NEW,
+        response = new PenaltyResponse(1L, PenaltyType.FINE, PenaltyStatus.CONFIRMED,
             340000L, new BigDecimal("2.5"), OffsetDateTime.now(), OffsetDateTime.now());
     }
 
@@ -87,18 +95,18 @@ class PenaltyServiceImplTest {
 
         when(offenseRepository.findById(sharedRequest.offenseId())).thenReturn(Optional.of(mockOffense));
         when(bhmService.getCurrentAmount()).thenReturn(bhmEntity);
-        when(penaltyMapper.requestToEntity(sharedRequest, mockJudge, mockOffense, currentBhm))
-            .thenReturn(penalty);
+        when(penaltyMapper.requestToEntity(sharedRequest, mockOffense, currentBhm)).thenReturn(penalty);
 
-        when(penaltyRepository.save(penalty)).thenReturn(savedPenalty);
-        when(penaltyMapper.entityToWebhookEvent(savedPenalty)).thenReturn(webhookEvent);
+        when(penaltyRepository.existsByOffenseId(sharedRequest.offenseId())).thenReturn(false);
+
+        when(penaltyHelperService.savePenalty(penalty)).thenReturn(savedPenalty);
         when(penaltyMapper.entityToResponse(savedPenalty)).thenReturn(response);
 
         PenaltyResponse result = penaltyService.ruleOutPenalty(sharedRequest, mockJudge);
 
         assertNotNull(result);
         assertEquals(response, result);
-        verify(penaltyRepository).save(penalty);
+        verify(penaltyHelperService).savePenalty(penalty);
         verify(penaltyWebhookEventProducer).publishWebhookEvent(webhookEvent);
     }
 
@@ -110,6 +118,6 @@ class PenaltyServiceImplTest {
             penaltyService.ruleOutPenalty(sharedRequest, mockJudge)
         );
 
-        verifyNoInteractions(bhmService, penaltyRepository, penaltyWebhookEventProducer);
+        verifyNoInteractions(bhmService, penaltyWebhookEventProducer);
     }
 }

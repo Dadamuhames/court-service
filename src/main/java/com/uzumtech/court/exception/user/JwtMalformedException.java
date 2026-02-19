@@ -1,7 +1,8 @@
-package com.uzumtech.court.exception;
+package com.uzumtech.court.exception.user;
 
 import com.uzumtech.court.constant.enums.ErrorCode;
 import com.uzumtech.court.constant.enums.ErrorType;
+import com.uzumtech.court.exception.ApplicationException;
 import io.jsonwebtoken.JwtException;
 import org.springframework.http.HttpStatus;
 

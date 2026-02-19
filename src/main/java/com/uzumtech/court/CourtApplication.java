@@ -2,9 +2,11 @@ package com.uzumtech.court;
 
 import com.uzumtech.court.component.AiContextLoader;
 import com.uzumtech.court.entity.AdminEntity;
+import com.uzumtech.court.entity.BhmAmountEntity;
 import com.uzumtech.court.entity.ExternalServiceEntity;
 import com.uzumtech.court.entity.JudgeEntity;
 import com.uzumtech.court.repository.AdminRepository;
+import com.uzumtech.court.repository.BhmAmountRepository;
 import com.uzumtech.court.repository.ExternalServiceRepository;
 import com.uzumtech.court.repository.JudgeRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,7 @@ public class CourtApplication implements CommandLineRunner {
     private final JudgeRepository judgeRepository;
     private final ExternalServiceRepository externalServiceRepository;
     private final PasswordEncoder passwordEncoder;
+    private final BhmAmountRepository bhmAmountRepository;
 
     public static void main(String[] args) {
         SpringApplication.run(CourtApplication.class, args);
@@ -37,10 +40,10 @@ public class CourtApplication implements CommandLineRunner {
             adminRepository.save(admin);
         }
 
-        boolean judgeExists = judgeRepository.existsByEmail("judge@gmail.com");
+        boolean judgeExists = judgeRepository.existsByEmail("msdadamuhamedov@gmail.com");
 
         if (!judgeExists) {
-            var judge = JudgeEntity.builder().email("judge@gmail.com").fullName("name").password(passwordEncoder.encode("123123")).build();
+            var judge = JudgeEntity.builder().email("msdadamuhamedov@gmail.com").fullName("name").password(passwordEncoder.encode("123123")).build();
 
             judgeRepository.save(judge);
         }
@@ -54,6 +57,14 @@ public class CourtApplication implements CommandLineRunner {
                 .password(passwordEncoder.encode("123123")).webhookSecret("secret").webhookUrl("https://localhost:7070").build();
 
             externalServiceRepository.save(service);
+        }
+
+        boolean bhmExists = bhmAmountRepository.existsById(1L);
+
+        if(!bhmExists) {
+            var bhm = BhmAmountEntity.builder().amount(200000L).build();
+
+            bhmAmountRepository.save(bhm);
         }
     }
 }

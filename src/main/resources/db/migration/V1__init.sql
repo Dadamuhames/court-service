@@ -46,19 +46,28 @@ CREATE TABLE users (
     id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     pinfl varchar(255) NOT NULL UNIQUE,
     full_name varchar(255) NOT NULL,
-    date_of_birth date NOT NULL,
+    age int NOT NULL,
     created_at timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE INDEX idx_users_pinfl ON users(pinfl);
 
+CREATE TYPE offense_status AS ENUM (
+    'PENDING',
+    'PROCESSING_AI_DECISION',
+    'DRAFT_PENALTY',
+    'COMPLETED'
+);
+
 CREATE TABLE offenses (
     id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     external_id bigint NOT NULL UNIQUE,
     external_service_id bigint NOT NULL,
+    judge_id bigint NOT NULL,
     user_id bigint NOT NULL,
     offense_location varchar(255) NOT NULL,
+    status offense_status NOT NULL DEFAULT 'PENDING',
     offender_explanation text,
     description text NOT NULL,
     protocol_number varchar(255) NOT NULL UNIQUE,
@@ -68,10 +77,13 @@ CREATE TABLE offenses (
     created_at timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_offense_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE RESTRICT,
-    CONSTRAINT fk_offense_external_service FOREIGN KEY (external_service_id) REFERENCES external_services (id) ON DELETE RESTRICT
+    CONSTRAINT fk_offense_external_service FOREIGN KEY (external_service_id) REFERENCES external_services (id) ON DELETE RESTRICT,
+    CONSTRAINT fk_penalties_judge FOREIGN KEY (judge_id) REFERENCES judges (id) ON DELETE RESTRICT ON UPDATE RESTRICT
 );
 
 CREATE INDEX idx_offenses_external_id ON offenses(external_id);
+
+CREATE INDEX idx_offenses_judge_id ON offenses(judge_id);
 
 CREATE INDEX idx_offenses_user_id ON offenses(user_id);
 
@@ -90,20 +102,15 @@ CREATE TYPE penalty_type AS ENUM (
 );
 
 CREATE TYPE penalty_status AS ENUM (
-    'NEW',
-    'SENDING',
-    'PENDING',
-    'PARTIALLY_PAID',
-    'PAID',
-    'OVERDUE',
-    'CANCELLED',
-    'FAILED'
+   'DRAFT',
+   'CONFIRMED',
+   'SENT',
+   'FAILED'
 );
 
 CREATE TABLE penalties (
     id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    offense_id bigint NOT NULL,
-    judge_id bigint NOT NULL,
+    offense_id bigint NOT NULL UNIQUE,
     type penalty_type NOT NULL,
     status penalty_status NOT NULL,
     bhm_amount_at_time bigint NOT NULL,
@@ -114,8 +121,7 @@ CREATE TABLE penalties (
     deprivation_duration_months integer NOT NULL,
     created_at timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
-    CONSTRAINT fk_penalties_offense FOREIGN KEY (offense_id) REFERENCES offenses (id) ON DELETE RESTRICT ON UPDATE RESTRICT,
-    CONSTRAINT fk_penalties_judge FOREIGN KEY (judge_id) REFERENCES judges (id) ON DELETE RESTRICT ON UPDATE RESTRICT
+    CONSTRAINT fk_penalties_offense FOREIGN KEY (offense_id) REFERENCES offenses (id) ON DELETE RESTRICT ON UPDATE RESTRICT
 );
 
 CREATE INDEX idx_penalties_offense_id ON penalties(offense_id);

@@ -7,7 +7,7 @@ import com.uzumtech.court.service.RefreshTokenService;
 import com.uzumtech.court.service.impl.userdetails.UserDetailDispatcher;
 import com.uzumtech.court.constant.enums.ErrorCode;
 import com.uzumtech.court.entity.RefreshTokenEntity;
-import com.uzumtech.court.exception.RefreshTokenException;
+import com.uzumtech.court.exception.user.RefreshTokenException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

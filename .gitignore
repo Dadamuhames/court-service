@@ -13,7 +13,6 @@ build/
 ollama/
 
 logs/
-!**/src/main/resources/ai/data/**
 
 ### STS ###
 .apt_generated

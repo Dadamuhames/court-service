@@ -5,7 +5,10 @@ import com.uzumtech.court.dto.llm.DecisionPrompt;
 import com.uzumtech.court.dto.llm.OffenseDto;
 import com.uzumtech.court.dto.llm.PenaltyDto;
 import com.uzumtech.court.dto.request.OffenseRegistrationRequest;
+import com.uzumtech.court.dto.response.OffenseDetailResponse;
 import com.uzumtech.court.dto.response.OffenseResponse;
+import com.uzumtech.court.dto.response.PenaltyDetailResponse;
+import com.uzumtech.court.entity.JudgeEntity;
 import com.uzumtech.court.entity.OffenseEntity;
 import com.uzumtech.court.entity.PenaltyEntity;
 import com.uzumtech.court.entity.UserEntity;
@@ -20,10 +23,14 @@ import java.util.List;
 public interface OffenseMapper {
 
     @Mapping(target = "id", ignore = true)
+    @Mapping(target = "createdAt", ignore = true)
+    @Mapping(target = "updatedAt", ignore = true)
     @Mapping(target = "user", source = "user")
+    @Mapping(target = "judge", source = "judge")
+    @Mapping(target = "status", constant = "PENDING")
     @Mapping(target = "courtCaseNumber", source = "courtCaseNumber")
     @Mapping(target = "externalId", source = "request.legalOffenseId")
-    OffenseEntity requestToEntity(OffenseRegistrationRequest request, UserEntity user, String courtCaseNumber);
+    OffenseEntity requestToEntity(OffenseRegistrationRequest request, UserEntity user, JudgeEntity judge, String courtCaseNumber);
 
     OffenseResponse entityToResponse(OffenseEntity entity);
 
@@ -34,4 +41,9 @@ public interface OffenseMapper {
     OffenseDto entityToDto(OffenseEntity offense);
 
     PenaltyDto penaltyToDto(PenaltyEntity penalty);
+
+    @Mapping(target = "id", source = "offense.id")
+    @Mapping(target = "createdAt", source = "offense.createdAt")
+    @Mapping(target = "penalty", source = "penalty")
+    OffenseDetailResponse entityToDetailResponse(OffenseEntity offense, PenaltyDetailResponse penalty);
 }

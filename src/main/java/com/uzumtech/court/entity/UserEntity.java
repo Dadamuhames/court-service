@@ -26,5 +26,5 @@ public class UserEntity extends BaseEntity {
     private String fullName;
 
     @Column(nullable = false)
-    private LocalDate dateOfBirth;
+    private Integer age;
 }

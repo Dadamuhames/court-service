@@ -1,5 +1,8 @@
 services:
   db:
+    networks:
+      - court-network
+
     image: pgvector/pgvector:pg16
     container_name: court_db
 
@@ -17,6 +20,9 @@ services:
     restart: always
 
   kafka:
+    networks:
+      - court-network
+
     image: apache/kafka:3.7.0
     container_name: court-kafka-broker
     hostname: kafka
@@ -36,6 +42,9 @@ services:
       CLUSTER_ID: MkU3OEVBNTcwNTJENDM2Qk
 
   kafka-ui:
+    networks:
+      - court-network
+
     image: provectuslabs/kafka-ui:latest
     container_name: court-kafka-ui
     depends_on:
@@ -50,6 +59,9 @@ services:
     restart: unless-stopped
 
   ollama:
+    networks:
+      - court-network
+
     image: ollama/ollama:latest
     ports:
       - 11434:11434
@@ -63,6 +75,9 @@ services:
     entrypoint: [ "/usr/bin/bash", "/entrypoint.sh" ]
 
   app:
+    networks:
+      - court-network
+
     build: .
     container_name: j-court
     depends_on:
@@ -73,9 +88,16 @@ services:
     ports:
       - "7070:7070"
     environment:
+
+      SPRING_KAFKA_BOOTSTRAP_SERVERS: kafka:9092
+
+
       SPRING_DATASOURCE_URL: jdbc:postgresql://db:5432/court_db
       SPRING_DATASOURCE_USERNAME: root
       SPRING_DATASOURCE_PASSWORD: root_password
+
+      NOTIFICATION_LOGIN: ${NOTIFICATION_LOGIN}
+      NOTIFICATION_PASSWORD: ${NOTIFICATION_PASSWORD}
 
       JWT_SECRET: ${JWT_SECRET}
       GROQ_API_KEY: ${GROQ_API_KEY}
@@ -89,3 +111,8 @@ services:
 volumes:
   postgres_data: { }
   ollama_data: { }
+
+
+networks:
+  court-network:
+    driver: bridge

@@ -46,7 +46,12 @@ spring:
 
     producer:
       bootstrap-servers: kafka:9092
+      compression-type: gzip
       acks: -1
+      properties:
+        max:
+          request:
+            size: 10485760
 
   # Flyway configuration
   flyway:
@@ -93,6 +98,13 @@ server:
 logging:
   config: classpath:log4j2.yml
 
+  level:
+    org:
+      apache:
+        kafka: WARN
+      springframework:
+        kafka: WARN
+
 jwt:
   secret-key: ${JWT_SECRET}
   access-ttl: 900000
@@ -100,6 +112,11 @@ jwt:
 
 services:
   gcp:
-    url: "http://localhost:8070/api/v1/gcp"
+    url: "http://217.29.121.129/gcp_api/api/gcp"
     login: ""
     password: ""
+
+  notification:
+    url: "http://217.29.121.129/notification_api/api/notifications"
+    login: ${NOTIFICATION_LOGIN}
+    password: ${NOTIFICATION_PASSWORD}

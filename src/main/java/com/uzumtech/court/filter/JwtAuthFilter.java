@@ -6,7 +6,7 @@ import com.uzumtech.court.constant.enums.ErrorCode;
 import com.uzumtech.court.constant.enums.ErrorType;
 import com.uzumtech.court.constant.enums.Role;
 import com.uzumtech.court.dto.response.error.ErrorResponse;
-import com.uzumtech.court.exception.JwtMalformedException;
+import com.uzumtech.court.exception.user.JwtMalformedException;
 import com.uzumtech.court.service.JwtService;
 import com.uzumtech.court.service.impl.userdetails.UserDetailDispatcher;
 import jakarta.servlet.FilterChain;
