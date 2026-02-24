@@ -17,8 +17,8 @@ public class NotificationRequestStoreServiceImpl implements NotificationRequestS
     private final NotificationRequestRepository notificationRequestRepository;
 
     @Transactional
-    public int claimForProcessing(final UUID requestId) {
-        return notificationRequestRepository.claimForProcessing(requestId);
+    public boolean isAvailableForProcessing(final UUID requestId) {
+        return notificationRequestRepository.isAvailableForProcessing(requestId);
     }
 
     @Transactional

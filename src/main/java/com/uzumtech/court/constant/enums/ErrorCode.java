@@ -47,8 +47,7 @@ public enum ErrorCode {
     PENALTY_STATUS_INVALID_CODE(10810, "Penalty is in terminal status so it cannot be confirmed or updated"),
     PENALTY_EXISTS_CODE(10820, "Penalty for the offense already exists"),
 
-    NOTIFICATION_ID_INVALID_CODE(10900, "Notification id invalid"),
-    NOTIFICATION_CALLBACK_REGISTERED(10910, "Notification callback registered");
+    NOTIFICATION_ID_INVALID_CODE(10900, "Notification id invalid");
 
     final int code;
     final String message;

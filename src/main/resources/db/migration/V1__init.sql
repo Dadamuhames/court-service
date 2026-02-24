@@ -1,7 +1,7 @@
 CREATE TABLE judges (
     id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     email varchar(255) NOT NULL UNIQUE,
-    password VARCHAR(255) NOT NULL,
+    password TEXT NOT NULL,
     full_name varchar(255) NOT NULL,
     is_active boolean NOT NULL DEFAULT TRUE,
     created_at timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -13,7 +13,7 @@ CREATE INDEX idx_judges_email ON judges(email);
 CREATE TABLE admins (
     id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     login varchar(255) NOT NULL UNIQUE,
-    password varchar(255) NOT NULL,
+    password TEXT NOT NULL,
     is_active boolean NOT NULL DEFAULT TRUE,
     created_at timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -32,9 +32,9 @@ CREATE TABLE bhm_amounts (
 CREATE TABLE external_services (
     id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     login varchar(255) NOT NULL UNIQUE,
-    password varchar(255) NOT NULL,
+    password TEXT NOT NULL,
     webhook_url varchar(255) NOT NULL,
-    webhook_secret varchar(255) NOT NULL,
+    webhook_secret TEXT NOT NULL,
     is_active boolean NOT NULL DEFAULT TRUE,
     created_at timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP
@@ -62,7 +62,7 @@ CREATE TYPE offense_status AS ENUM (
 
 CREATE TABLE offenses (
     id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    external_id bigint NOT NULL UNIQUE,
+    external_id bigint NOT NULL,
     external_service_id bigint NOT NULL,
     judge_id bigint NOT NULL,
     user_id bigint NOT NULL,
@@ -72,7 +72,7 @@ CREATE TABLE offenses (
     description text NOT NULL,
     protocol_number varchar(255) NOT NULL UNIQUE,
     court_case_number varchar(255) NOT NULL UNIQUE,
-    code_article_number integer NOT NULL,
+    code_article_reference varchar(255) NOT NULL,
     offense_date_time timestamptz NOT NULL,
     created_at timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updated_at timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,

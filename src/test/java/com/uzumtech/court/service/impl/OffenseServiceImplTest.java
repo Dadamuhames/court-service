@@ -63,7 +63,7 @@ class OffenseServiceImplTest {
             "I was speeding because...",
             "Speeding violation",
             OffsetDateTime.now(),
-            123
+            "123"
         );
     }
 
@@ -99,7 +99,6 @@ class OffenseServiceImplTest {
 
         OffenseResponse expectedResponse = new OffenseResponse(1L, 1L, mockCaseNumber, OffsetDateTime.now());
 
-        when(offenseRepository.existsByExternalId(request.legalOffenseId())).thenReturn(false);
         when(userRegisterService.findUserByPinflOrRegister(request.offenderPinfl())).thenReturn(mockUser);
         when(courtCaseNumberUtils.generateProtocolNumber()).thenReturn(mockCaseNumber);
         when(judgeRepository.findRandomJudge()).thenReturn(Optional.of(mockJudge));
@@ -113,16 +112,5 @@ class OffenseServiceImplTest {
         assertEquals(expectedResponse, actualResponse);
         verify(offenseRepository).save(mockOffense);
         assertEquals(externalService, mockOffense.getExternalService());
-    }
-
-    @Test
-    void register_ShouldThrowException_WhenAlreadyExists() {
-        when(offenseRepository.existsByExternalId(request.legalOffenseId())).thenReturn(true);
-
-        assertThrows(OffenseRegisteredException.class, () ->
-            offenseService.register(new ExternalServiceEntity(), request)
-        );
-
-        verify(offenseRepository, never()).save(any());
     }
 }

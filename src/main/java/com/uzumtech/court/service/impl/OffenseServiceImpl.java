@@ -40,8 +40,6 @@ public class OffenseServiceImpl implements OffenseService {
     @Override
     @Transactional
     public OffenseResponse register(final ExternalServiceEntity externalService, final OffenseRegistrationRequest request) {
-        validateExternalOffenseId(request);
-
         UserEntity user = userRegisterService.findUserByPinflOrRegister(request.offenderPinfl());
         JudgeEntity judge = judgeRepository.findRandomJudge().orElseThrow(() -> new JudgeNotFoundException(ErrorCode.JUDGE_NOT_FOUND_CODE));
 

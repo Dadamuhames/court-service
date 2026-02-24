@@ -4,7 +4,6 @@ import com.uzumtech.court.constant.enums.ErrorCode;
 import com.uzumtech.court.dto.request.NotificationCallbackRequest;
 import com.uzumtech.court.entity.notification.NotificationCallbackEntity;
 import com.uzumtech.court.entity.notification.NotificationRequestEntity;
-import com.uzumtech.court.exception.NotificationCallbackRegisteredForRequestException;
 import com.uzumtech.court.exception.NotificationIdInvalidException;
 import com.uzumtech.court.mapper.NotificationMapper;
 import com.uzumtech.court.repository.notification.NotificationCallbackRepository;

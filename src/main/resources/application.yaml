@@ -108,7 +108,7 @@ logging:
 jwt:
   secret-key: ${JWT_SECRET}
   access-ttl: 900000
-  refresh-ttl: 900000
+  refresh-ttl: 1500000
 
 services:
   gcp:

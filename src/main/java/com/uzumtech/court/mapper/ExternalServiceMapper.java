@@ -14,8 +14,7 @@ public interface ExternalServiceMapper {
 
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "password", source = "passwordEncrypted")
-    @Mapping(target = "webhookSecret", source = "webhookSecretEncrypted")
-    ExternalServiceEntity requestToEntity(ExternalServiceCreateRequest request, String passwordEncrypted, String webhookSecretEncrypted);
+    ExternalServiceEntity requestToEntity(ExternalServiceCreateRequest request, String passwordEncrypted);
 
     ExternalServiceAdminResponse entityToResponse(ExternalServiceEntity entity);
 }

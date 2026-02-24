@@ -19,10 +19,11 @@ import java.time.OffsetDateTime;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "offenses", indexes = {@Index(columnList = "externalId"), @Index(columnList = "courtCaseNumber"), @Index(columnList = "user_id"), @Index(columnList = "judge_id")})
+@Table(name = "offenses",
+    indexes = {@Index(columnList = "externalId"), @Index(columnList = "courtCaseNumber"), @Index(columnList = "user_id"), @Index(columnList = "judge_id")})
 public class OffenseEntity extends BaseEntity {
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private Long externalId;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -57,7 +58,7 @@ public class OffenseEntity extends BaseEntity {
     private String courtCaseNumber;
 
     @Column(nullable = false)
-    private Integer codeArticleNumber;
+    private String codeArticleReference;
 
     @Column(nullable = false, updatable = false)
     private OffsetDateTime offenseDateTime;

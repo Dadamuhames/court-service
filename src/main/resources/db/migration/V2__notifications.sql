@@ -7,7 +7,6 @@ CREATE TYPE notification_type AS ENUM (
 CREATE TYPE request_status AS ENUM (
     'NEW',
     'DELIVERED',
-    'PROCESSING',
     'SENT_TO_RETRY',
     'FAILED'
 );

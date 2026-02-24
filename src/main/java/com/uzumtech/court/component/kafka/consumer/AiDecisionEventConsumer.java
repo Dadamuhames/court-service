@@ -38,9 +38,11 @@ public class AiDecisionEventConsumer implements EventConsumer<AiDecisionEvent> {
     @RetryableTopic(backOff = @BackOff(delay = 5000), include = {TransientException.class}, numPartitions = "3", replicationFactor = "1")
     public void listen(@Payload @Valid AiDecisionEvent event) {
 
-        log.info("Ai event being processed: {}", event);
+        long offenseId = event.offenseId();
 
-        boolean offenseExistsAndAvailable = offenseService.existsByIdAndProcessing(event.offenseId());
+        log.info("Ai event being processed: {}", offenseId);
+
+        boolean offenseExistsAndAvailable = offenseService.existsByIdAndProcessing(offenseId);
 
         log.info("offenseExistsAndAvailable: {}", offenseExistsAndAvailable);
 
@@ -48,13 +50,13 @@ public class AiDecisionEventConsumer implements EventConsumer<AiDecisionEvent> {
             throw new OffenseStatusInvalidException(ErrorCode.OFFENSE_ID_INVALID_OR_CLOSED);
         }
 
-        DecisionOutput llmOutput = decisionLlmService.getAIDecision(event.offenseId());
+        DecisionOutput llmOutput = decisionLlmService.getAIDecision(offenseId);
 
         log.info("AI output: {}", llmOutput);
 
-        penaltyService.ruleOutFromAiDecision(event.offenseId(), llmOutput);
+        penaltyService.ruleOutFromAiDecision(offenseId, llmOutput);
 
-        OnAiDecisionEmailEvent emailEvent = new OnAiDecisionEmailEvent(event.judgeEmail(), event.offenseId());
+        OnAiDecisionEmailEvent emailEvent = new OnAiDecisionEmailEvent(event.judgeEmail(), offenseId);
 
         emailEventPublisher.publish(emailEvent);
     }
