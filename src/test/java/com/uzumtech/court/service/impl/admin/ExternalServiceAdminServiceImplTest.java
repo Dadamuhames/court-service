@@ -71,15 +71,13 @@ class ExternalServiceAdminServiceImplTest {
     @Test
     void create_ShouldEncryptBothSecretsAndSave() {
         String passHash = "hashed_pass";
-        String secretHash = "hashed_secret";
         ExternalServiceEntity entity = new ExternalServiceEntity();
         ExternalServiceAdminResponse expectedResponse = new ExternalServiceAdminResponse(1L, "login", OffsetDateTime.now());
 
         when(externalServiceRepository.existsByLogin(request.login())).thenReturn(false);
         when(passwordEncoder.encode(request.password())).thenReturn(passHash);
-        when(passwordEncoder.encode(request.webhookSecret())).thenReturn(secretHash);
 
-        when(externalServiceMapper.requestToEntity(request, passHash, secretHash))
+        when(externalServiceMapper.requestToEntity(request, passHash))
             .thenReturn(entity);
         when(externalServiceRepository.save(entity)).thenReturn(entity);
         when(externalServiceMapper.entityToResponse(entity)).thenReturn(expectedResponse);
@@ -87,7 +85,7 @@ class ExternalServiceAdminServiceImplTest {
         ExternalServiceAdminResponse result = externalServiceAdminService.create(request);
 
         assertNotNull(result);
-        verify(passwordEncoder, times(2)).encode(anyString());
+        verify(passwordEncoder).encode(anyString());
         verify(externalServiceRepository).save(entity);
     }
 

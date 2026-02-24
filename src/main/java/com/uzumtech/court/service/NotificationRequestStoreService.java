@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public interface NotificationRequestStoreService {
 
-    int claimForProcessing(final UUID requestId);
+    boolean isAvailableForProcessing(final UUID requestId);
 
     void createNotificationRequest(final NotificationEvent event);
 

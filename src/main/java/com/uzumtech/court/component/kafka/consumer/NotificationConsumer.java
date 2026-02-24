@@ -25,6 +25,8 @@ import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Slf4j
 @Component
 @RequiredArgsConstructor
@@ -35,22 +37,25 @@ public class NotificationConsumer implements EventConsumer<NotificationEvent> {
     @RetryableTopic(attempts = "6", backOff = @BackOff(delay = 5000), include = {TransientException.class}, numPartitions = "3", replicationFactor = "1")
     @KafkaListener(topics = KafkaConstants.NOTIFICATION_TOPIC, groupId = KafkaConstants.NOTIFICATION_GROUP_ID)
     public void listen(@Payload @Valid NotificationEvent event) {
-        int claim = requestStoreService.claimForProcessing(event.requestId());
 
-        if (claim == 0) {
-            log.info("Notification with requestId: {} is already being processed or in the terminal status", event.requestId());
+        UUID requestId = event.requestId();
+
+        boolean isAvailable = requestStoreService.isAvailableForProcessing(requestId);
+
+        if (!isAvailable) {
+            log.info("Notification with requestId: {} is already being processed or in the terminal status", requestId);
             return;
         }
 
-        NotificationRequest request = NotificationRequest.of(event.receiver(), event.text(), event.type());
+        NotificationRequest request = NotificationRequest.of(event);
 
         try {
             NotificationResponse response = notificationAdapter.sendNotification(request);
 
-            requestStoreService.markAsDelivered(event.requestId(), response.data().notificationId());
+            requestStoreService.markAsDelivered(requestId, response.data().notificationId());
 
         } catch (HttpServerException ex) {
-            requestStoreService.changeStatus(event.requestId(), NotificationRequestStatus.SENT_TO_RETRY);
+            requestStoreService.changeStatus(requestId, NotificationRequestStatus.SENT_TO_RETRY);
 
             log.error("Notification Http Server Error: {}", ex.getMessage());
 

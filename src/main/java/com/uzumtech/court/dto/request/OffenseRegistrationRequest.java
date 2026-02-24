@@ -11,4 +11,5 @@ public record OffenseRegistrationRequest(@NotNull(message = "legalOffenseId requ
                                          @NotBlank(message = "protocolNumber required") String protocolNumber,
                                          @NotBlank(message = "offenderExplanation required") String offenderExplanation,
                                          @NotBlank(message = "description required") String description,
-                                         @NotNull OffsetDateTime offenseDateTime, @NotNull Integer codeArticleNumber) {}
+                                         @NotNull OffsetDateTime offenseDateTime,
+                                         @NotBlank(message = "codeArticleReference required") String codeArticleReference) {}

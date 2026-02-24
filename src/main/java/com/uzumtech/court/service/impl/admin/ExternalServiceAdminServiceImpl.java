@@ -37,9 +37,8 @@ public class ExternalServiceAdminServiceImpl implements ExternalServiceAdminServ
         validateLogin(request);
 
         String encryptedPassword = passwordEncoder.encode(request.password());
-        String webhookSecretEncrypted = passwordEncoder.encode(request.webhookSecret());
 
-        ExternalServiceEntity externalServiceEntity = externalServiceMapper.requestToEntity(request, encryptedPassword, webhookSecretEncrypted);
+        ExternalServiceEntity externalServiceEntity = externalServiceMapper.requestToEntity(request, encryptedPassword);
 
         externalServiceEntity = externalServiceRepository.save(externalServiceEntity);
 

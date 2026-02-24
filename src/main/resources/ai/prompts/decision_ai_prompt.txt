@@ -25,7 +25,7 @@ If legal information is missing from CONTEXT, you MUST fabricate a legally plaus
 FALLBACK RULES (MANDATORY WHEN DATA IS MISSING):
 - Default penalty type:                  FINE
 - Default fine size:                     5 BHM
-- Default qualification:                 "<codeArticleNumber>-modda, 1-qism"
+- Default qualification:                 "<codeArticleReference>-modda, 1-qism"
 - Default due date:                      offenseDateTime + 30 days
 - Default deprivation duration (if needed): 6 months
 - Assume no aggravating circumstances unless clearly stated
@@ -35,7 +35,7 @@ FALLBACK RULES (MANDATORY WHEN DATA IS MISSING):
 
 INPUT JSON:
 {
-  "codeArticleNumber": integer,
+  "codeArticleReference": string,
   "description": string,
   "offenseDateTime": string,
   "previousOffenses": array,

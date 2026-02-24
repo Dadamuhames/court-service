@@ -5,6 +5,7 @@ import com.uzumtech.court.dto.event.PenaltyWebhookEvent;
 import com.uzumtech.court.dto.request.PenaltyWebhookDto;
 import com.uzumtech.court.dto.request.PenaltyWebhookRequest;
 import com.uzumtech.court.entity.ExternalServiceEntity;
+import com.uzumtech.court.entity.OffenseEntity;
 import com.uzumtech.court.entity.PenaltyEntity;
 import com.uzumtech.court.exception.penalty.PenaltyNotFoundException;
 import com.uzumtech.court.mapper.PenaltyMapper;
@@ -35,9 +36,11 @@ public class PenaltyHelperServiceImpl implements PenaltyHelperService {
     public PenaltyWebhookDto getWebhookDto(PenaltyWebhookEvent event) {
         PenaltyEntity penalty = penaltyRepository.findById(event.penaltyId()).orElseThrow();
 
-        ExternalServiceEntity externalService = penalty.getOffense().getExternalService();
+        OffenseEntity offense = penalty.getOffense();
 
-        PenaltyWebhookRequest request = penaltyMapper.entityToWebhookRequest(penalty, externalService.getId());
+        ExternalServiceEntity externalService = offense.getExternalService();
+
+        PenaltyWebhookRequest request = penaltyMapper.entityToWebhookRequest(penalty, offense.getExternalId());
 
         return new PenaltyWebhookDto(externalService.getWebhookUrl(), externalService.getWebhookSecret(), request);
     }

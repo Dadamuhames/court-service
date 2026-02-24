@@ -1,6 +1,7 @@
 package com.uzumtech.court.dto.request;
 
 import com.uzumtech.court.constant.enums.NotificationType;
+import com.uzumtech.court.dto.event.NotificationEvent;
 
 public record NotificationRequest(NotificationReceiver receiver, NotificationType type, String text) {
     public record NotificationReceiver(String phone, String email, String firebaseToken) {}
@@ -23,11 +24,11 @@ public record NotificationRequest(NotificationReceiver receiver, NotificationTyp
         return new NotificationRequest(receiver, NotificationType.PUSH, text);
     }
 
-    public static NotificationRequest of(String receiver, String text, NotificationType type) {
-        return switch (type) {
-            case SMS -> NotificationRequest.sms(receiver, text);
-            case EMAIL -> NotificationRequest.email(receiver, text);
-            case PUSH -> NotificationRequest.push(receiver, text);
+    public static NotificationRequest of(NotificationEvent event) {
+        return switch (event.type()) {
+            case SMS -> NotificationRequest.sms(event.receiver(), event.text());
+            case EMAIL -> NotificationRequest.email(event.receiver(), event.text());
+            case PUSH -> NotificationRequest.push(event.receiver(), event.text());
         };
     }
 }

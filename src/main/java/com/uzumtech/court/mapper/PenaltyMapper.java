@@ -42,6 +42,6 @@ public interface PenaltyMapper {
     void updatePenalty(PenaltyUpdateRequest request, @MappingTarget PenaltyEntity entity);
 
 
-    @Mapping(target = "externalOffenseId", source = "externalServiceId")
-    PenaltyWebhookRequest entityToWebhookRequest(PenaltyEntity entity, Long externalServiceId);
+    @Mapping(target = "externalOffenseId", source = "externalOffenseId")
+    PenaltyWebhookRequest entityToWebhookRequest(PenaltyEntity entity, Long externalOffenseId);
 }

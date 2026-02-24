@@ -61,7 +61,7 @@ public class PenaltyServiceImpl implements PenaltyService {
     private void validateOffenseId(Long offenseId) {
         boolean penaltyExists = penaltyRepository.existsByOffenseId(offenseId);
 
-        if(penaltyExists) {
+        if (penaltyExists) {
             throw new PenaltyExistsException(ErrorCode.PENALTY_EXISTS_CODE);
         }
     }
@@ -84,7 +84,7 @@ public class PenaltyServiceImpl implements PenaltyService {
     public PenaltyResponse updatePenaltyAndConfirm(Long penaltyId, PenaltyUpdateRequest request, JudgeEntity judge) {
         PenaltyEntity penalty = penaltyHelperService.getByIdAndJudgeId(penaltyId, judge.getId());
 
-        if (penalty.getStatus().equals(PenaltyStatus.CONFIRMED)) {
+        if (penalty.getStatus() == PenaltyStatus.CONFIRMED) {
             throw new PenaltyStatusInvalidException(ErrorCode.PENALTY_STATUS_INVALID_CODE);
         }
 
@@ -96,15 +96,17 @@ public class PenaltyServiceImpl implements PenaltyService {
     }
 
 
-    private PenaltyEntity getByOffenseIdOrCreate(Long offenseId) {
+    private PenaltyEntity getByOffenseIdOrBuild(Long offenseId) {
         return penaltyRepository.findByOffenseId(offenseId).orElse(PenaltyEntity.builder().status(PenaltyStatus.DRAFT).offense(offenseRepository.getReferenceById(offenseId)).build());
     }
 
     @Transactional
     public void ruleOutFromAiDecision(Long offenseId, DecisionOutput output) {
-        PenaltyEntity penalty = getByOffenseIdOrCreate(offenseId);
+        PenaltyEntity penalty = getByOffenseIdOrBuild(offenseId);
 
-        if (penalty.getStatus().equals(PenaltyStatus.CONFIRMED) || penalty.getStatus().equals(PenaltyStatus.SENT)) {
+        PenaltyStatus penaltyStatus = penalty.getStatus();
+
+        if (penaltyStatus == PenaltyStatus.CONFIRMED || penaltyStatus == PenaltyStatus.SENT) {
             throw new PenaltyStatusInvalidException(ErrorCode.PENALTY_STATUS_INVALID_CODE);
         }
 

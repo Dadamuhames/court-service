@@ -5,7 +5,7 @@ import java.time.OffsetDateTime;
 public record OffenseDetailResponse(Long id,
                                     Long externalId,
                                     String courtCaseNumber,
-                                    Integer codeArticleNumber,
+                                    String codeArticleReference,
                                     String description,
                                     String offenseLocation,
                                     String offenderExplanation,
