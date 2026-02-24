@@ -1,6 +1,6 @@
 # J-Court Service
 
-**A microservice for judges to review offenses and render decisions on penalties**
+**A service for judges to review offenses and render decisions on penalties**
 
 ## Rules
 
