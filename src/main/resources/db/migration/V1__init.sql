@@ -78,7 +78,8 @@ CREATE TABLE offenses (
     updated_at timestamptz NOT NULL DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_offense_user FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE RESTRICT,
     CONSTRAINT fk_offense_external_service FOREIGN KEY (external_service_id) REFERENCES external_services (id) ON DELETE RESTRICT,
-    CONSTRAINT fk_penalties_judge FOREIGN KEY (judge_id) REFERENCES judges (id) ON DELETE RESTRICT ON UPDATE RESTRICT
+    CONSTRAINT fk_penalties_judge FOREIGN KEY (judge_id) REFERENCES judges (id) ON DELETE RESTRICT ON UPDATE RESTRICT,
+    CONSTRAINT uq_external_id_external_service_id UNIQUE (external_id, external_service_id)
 );
 
 CREATE INDEX idx_offenses_external_id ON offenses(external_id);

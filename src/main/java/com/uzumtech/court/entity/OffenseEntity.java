@@ -19,8 +19,16 @@ import java.time.OffsetDateTime;
 @SuperBuilder
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "offenses",
-    indexes = {@Index(columnList = "externalId"), @Index(columnList = "courtCaseNumber"), @Index(columnList = "user_id"), @Index(columnList = "judge_id")})
+@Table(
+    name = "offenses",
+    indexes = {
+        @Index(columnList = "externalId"),
+        @Index(columnList = "courtCaseNumber"),
+        @Index(columnList = "user_id"),
+        @Index(columnList = "judge_id")
+    },
+    uniqueConstraints = @UniqueConstraint(columnNames = "external_id, external_service_id")
+)
 public class OffenseEntity extends BaseEntity {
 
     @Column(nullable = false)

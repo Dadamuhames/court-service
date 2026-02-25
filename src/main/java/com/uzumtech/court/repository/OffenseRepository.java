@@ -24,7 +24,7 @@ public interface OffenseRepository extends JpaRepository<OffenseEntity, Long> {
     @EntityGraph(attributePaths = {"penalty"})
     List<OffenseEntity> findByUserIdAndIdNot(Long userId, Long excludeId);
 
-    boolean existsByExternalId(Long externalId);
+    boolean existsByExternalIdAndExternalServiceId(Long externalId, Long externalServiceId);
 
     Page<OffenseEntity> findByJudgeId(Long judgeId, Pageable pageable);
 

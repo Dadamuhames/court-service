@@ -24,7 +24,15 @@ public class RefreshTokenServiceImpl implements RefreshTokenService {
 
     @Transactional
     public RefreshTokenEntity createRefreshToken(final CustomUserDetails userDetails) {
-        RefreshTokenEntity refreshToken = RefreshTokenEntity.builder().token(UUID.randomUUID().toString()).userRole(userDetails.getUserRole()).subject(userDetails.getUsername()).expiryDate(Instant.now().plusMillis(jwtProperty.getRefreshTtl())).build();
+
+        var expiryDate = Instant.now().plusSeconds(jwtProperty.getRefreshTtlSeconds());
+
+        RefreshTokenEntity refreshToken = RefreshTokenEntity.builder()
+            .token(UUID.randomUUID().toString())
+            .userRole(userDetails.getUserRole())
+            .subject(userDetails.getUsername())
+            .expiryDate(expiryDate)
+            .build();
 
         return refreshTokenRepository.save(refreshToken);
     }

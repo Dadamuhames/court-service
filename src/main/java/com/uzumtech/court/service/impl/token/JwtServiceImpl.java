@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.SecretKey;
+import java.time.Instant;
 import java.util.Date;
 import java.util.Map;
 import java.util.function.Function;
@@ -59,11 +60,14 @@ public class JwtServiceImpl implements JwtService {
     }
 
     public String generateToken(final Map<String, Object> extraClaims, final String subject) {
+
+        Date expiration = Date.from(Instant.now().plusSeconds(jwtProperty.getAccessTtlSeconds()));
+
         return Jwts.builder()
             .claims(extraClaims)
             .subject(subject)
             .issuedAt(new Date(System.currentTimeMillis()))
-            .expiration(new Date(System.currentTimeMillis() + jwtProperty.getAccessTtl()))
+            .expiration(expiration)
             .signWith(getSignInKey())
             .compact();
     }
