@@ -40,6 +40,8 @@ public class OffenseServiceImpl implements OffenseService {
     @Override
     @Transactional
     public OffenseResponse register(final ExternalServiceEntity externalService, final OffenseRegistrationRequest request) {
+        validateExternalOffenseIdAndExternalServiceId(request.legalOffenseId(), externalService.getId());
+
         UserEntity user = userRegisterService.findUserByPinflOrRegister(request.offenderPinfl());
         JudgeEntity judge = judgeRepository.findRandomJudge().orElseThrow(() -> new JudgeNotFoundException(ErrorCode.JUDGE_NOT_FOUND_CODE));
 
@@ -54,18 +56,18 @@ public class OffenseServiceImpl implements OffenseService {
         return offenseMapper.entityToResponse(offenseEntity);
     }
 
-    @Override
-    @Transactional(readOnly = true)
-    public boolean existsByIdAndProcessing(Long id) {
-        return offenseRepository.existsByIdAndProcessing(id);
-    }
-
-    private void validateExternalOffenseId(final OffenseRegistrationRequest request) {
-        boolean offenseRegistered = offenseRepository.existsByExternalId(request.legalOffenseId());
+    private void validateExternalOffenseIdAndExternalServiceId(Long externalId, Long externalServiceId) {
+        boolean offenseRegistered = offenseRepository.existsByExternalIdAndExternalServiceId(externalId, externalServiceId);
 
         if (offenseRegistered) {
             throw new OffenseRegisteredException(ErrorCode.OFFENSE_REGISTERED_CODE);
         }
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public boolean existsByIdAndProcessing(Long id) {
+        return offenseRepository.existsByIdAndProcessing(id);
     }
 
     @Transactional
