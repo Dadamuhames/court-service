@@ -22,19 +22,14 @@ public class RestClientConfiguration {
 
     @Bean(name = "notificationRestClient")
     public RestClient notificationRestClient(RestClient.Builder builder) {
-        String authToken = getNotificationAuthToken();
-
         return builder.requestFactory(clientHttpRequestFactory())
             .defaultStatusHandler(new RestClientExceptionHandler())
             .baseUrl(notificationServiceProperties.getUrl())
-            .defaultHeader("Authorization", String.format("Basic %s", authToken))
+            .defaultHeaders(httpHeaders -> httpHeaders.setBasicAuth(
+                    notificationServiceProperties.getLogin(), notificationServiceProperties.getPassword()
+                )
+            )
             .build();
-    }
-
-    private String getNotificationAuthToken() {
-        String authTokenRaw = String.format("%s:%s", notificationServiceProperties.getLogin(), notificationServiceProperties.getPassword());
-
-        return Base64.getEncoder().encodeToString(authTokenRaw.getBytes());
     }
 
     @Bean(name = "gcpRestClient")
@@ -52,12 +47,6 @@ public class RestClientConfiguration {
         return builder.requestFactory(clientHttpRequestFactory())
             .defaultStatusHandler(new RestClientExceptionHandler())
             .build();
-    }
-
-    private String getGcpAuthToken() {
-        String authTokenRaw = String.format("%s:%s", gcpServiceProperties.getLogin(), gcpServiceProperties.getPassword());
-
-        return Base64.getEncoder().encodeToString(authTokenRaw.getBytes());
     }
 
     @Bean

@@ -1,6 +1,7 @@
 package com.uzumtech.court.entity;
 
 import com.uzumtech.court.constant.enums.Role;
+import com.uzumtech.court.entity.base.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -27,10 +28,7 @@ import java.time.Instant;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "refresh_tokens", indexes = {@Index(columnList = "token")})
-public class RefreshTokenEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class RefreshTokenEntity extends BaseEntity {
 
     @Column(nullable = false)
     private String token;

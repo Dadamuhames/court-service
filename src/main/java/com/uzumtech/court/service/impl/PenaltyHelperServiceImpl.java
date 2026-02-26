@@ -2,8 +2,8 @@ package com.uzumtech.court.service.impl;
 
 import com.uzumtech.court.constant.enums.ErrorCode;
 import com.uzumtech.court.dto.event.PenaltyWebhookEvent;
-import com.uzumtech.court.dto.request.PenaltyWebhookDto;
-import com.uzumtech.court.dto.request.PenaltyWebhookRequest;
+import com.uzumtech.court.dto.request.penalty.PenaltyWebhookDto;
+import com.uzumtech.court.dto.request.penalty.PenaltyWebhookRequest;
 import com.uzumtech.court.entity.ExternalServiceEntity;
 import com.uzumtech.court.entity.OffenseEntity;
 import com.uzumtech.court.entity.PenaltyEntity;

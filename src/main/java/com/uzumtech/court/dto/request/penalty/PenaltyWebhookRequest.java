@@ -1,7 +1,6 @@
-package com.uzumtech.court.dto.request;
+package com.uzumtech.court.dto.request.penalty;
 
 import com.uzumtech.court.constant.enums.PenaltyType;
-import lombok.Builder;
 
 import java.math.BigDecimal;
 import java.time.OffsetDateTime;

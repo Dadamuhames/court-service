@@ -1,4 +1,4 @@
-package com.uzumtech.court.dto.request;
+package com.uzumtech.court.dto.request.penalty;
 
 import com.uzumtech.court.constant.enums.PenaltyType;
 import jakarta.validation.constraints.NotBlank;

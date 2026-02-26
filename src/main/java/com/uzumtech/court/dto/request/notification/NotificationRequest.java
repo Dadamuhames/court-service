@@ -1,4 +1,4 @@
-package com.uzumtech.court.dto.request;
+package com.uzumtech.court.dto.request.notification;
 
 import com.uzumtech.court.constant.enums.NotificationType;
 import com.uzumtech.court.dto.event.NotificationEvent;

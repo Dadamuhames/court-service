@@ -1,8 +1,8 @@
 package com.uzumtech.court.controller.judge;
 
 
-import com.uzumtech.court.dto.request.PenaltyRequest;
-import com.uzumtech.court.dto.request.PenaltyUpdateRequest;
+import com.uzumtech.court.dto.request.penalty.PenaltyRequest;
+import com.uzumtech.court.dto.request.penalty.PenaltyUpdateRequest;
 import com.uzumtech.court.dto.response.PenaltyResponse;
 import com.uzumtech.court.entity.JudgeEntity;
 import com.uzumtech.court.service.PenaltyService;

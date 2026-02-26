@@ -1,7 +1,7 @@
 package com.uzumtech.court.service.impl.notification;
 
 import com.uzumtech.court.constant.enums.ErrorCode;
-import com.uzumtech.court.dto.request.NotificationCallbackRequest;
+import com.uzumtech.court.dto.request.notification.NotificationCallbackRequest;
 import com.uzumtech.court.entity.notification.NotificationCallbackEntity;
 import com.uzumtech.court.entity.notification.NotificationRequestEntity;
 import com.uzumtech.court.exception.NotificationIdInvalidException;

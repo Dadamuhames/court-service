@@ -1,7 +1,7 @@
 package com.uzumtech.court.service;
 
 import com.uzumtech.court.dto.event.PenaltyWebhookEvent;
-import com.uzumtech.court.dto.request.PenaltyWebhookDto;
+import com.uzumtech.court.dto.request.penalty.PenaltyWebhookDto;
 import com.uzumtech.court.entity.PenaltyEntity;
 
 public interface PenaltyHelperService {
