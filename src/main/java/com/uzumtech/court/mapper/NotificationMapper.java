@@ -1,6 +1,6 @@
 package com.uzumtech.court.mapper;
 
-import com.uzumtech.court.dto.request.NotificationCallbackRequest;
+import com.uzumtech.court.dto.request.notification.NotificationCallbackRequest;
 import com.uzumtech.court.entity.notification.NotificationCallbackEntity;
 import com.uzumtech.court.entity.notification.NotificationRequestEntity;
 import org.mapstruct.Mapper;

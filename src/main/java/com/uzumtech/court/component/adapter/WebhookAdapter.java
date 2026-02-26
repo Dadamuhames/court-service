@@ -1,6 +1,6 @@
 package com.uzumtech.court.component.adapter;
 
-import com.uzumtech.court.dto.request.PenaltyWebhookDto;
+import com.uzumtech.court.dto.request.penalty.PenaltyWebhookDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;

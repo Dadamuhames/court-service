@@ -4,7 +4,7 @@ import com.uzumtech.court.component.kafka.producer.PenaltyWebhookEventProducer;
 import com.uzumtech.court.constant.enums.PenaltyStatus;
 import com.uzumtech.court.constant.enums.PenaltyType;
 import com.uzumtech.court.dto.event.PenaltyWebhookEvent;
-import com.uzumtech.court.dto.request.PenaltyRequest;
+import com.uzumtech.court.dto.request.penalty.PenaltyRequest;
 import com.uzumtech.court.dto.response.PenaltyResponse;
 import com.uzumtech.court.entity.BhmAmountEntity;
 import com.uzumtech.court.entity.JudgeEntity;

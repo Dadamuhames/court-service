@@ -1,11 +1,10 @@
 package com.uzumtech.court.component.adapter;
 
 
-import com.uzumtech.court.dto.request.NotificationRequest;
+import com.uzumtech.court.dto.request.notification.NotificationRequest;
 import com.uzumtech.court.dto.response.NotificationResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 
 @Component

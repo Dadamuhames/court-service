@@ -1,4 +1,4 @@
-package com.uzumtech.court.dto.request;
+package com.uzumtech.court.dto.request.notification;
 
 import com.uzumtech.court.constant.enums.NotificationStatus;
 import jakarta.validation.Valid;

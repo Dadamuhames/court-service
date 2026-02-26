@@ -5,7 +5,7 @@ import com.uzumtech.court.component.adapter.NotificationAdapter;
 import com.uzumtech.court.constant.KafkaConstants;
 import com.uzumtech.court.constant.enums.ErrorCode;
 import com.uzumtech.court.constant.enums.NotificationRequestStatus;
-import com.uzumtech.court.dto.request.NotificationRequest;
+import com.uzumtech.court.dto.request.notification.NotificationRequest;
 import com.uzumtech.court.dto.response.NotificationResponse;
 import com.uzumtech.court.exception.http.HttpClientException;
 import com.uzumtech.court.exception.http.HttpServerException;

@@ -1,6 +1,6 @@
 package com.uzumtech.court.controller.external;
 
-import com.uzumtech.court.dto.request.NotificationCallbackRequest;
+import com.uzumtech.court.dto.request.notification.NotificationCallbackRequest;
 import com.uzumtech.court.service.NotificationCallbackStoreService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

@@ -1,11 +1,10 @@
 package com.uzumtech.court.mapper;
 
 
-import com.uzumtech.court.dto.event.PenaltyWebhookEvent;
 import com.uzumtech.court.dto.llm.DecisionOutput;
-import com.uzumtech.court.dto.request.PenaltyRequest;
-import com.uzumtech.court.dto.request.PenaltyUpdateRequest;
-import com.uzumtech.court.dto.request.PenaltyWebhookRequest;
+import com.uzumtech.court.dto.request.penalty.PenaltyRequest;
+import com.uzumtech.court.dto.request.penalty.PenaltyUpdateRequest;
+import com.uzumtech.court.dto.request.penalty.PenaltyWebhookRequest;
 import com.uzumtech.court.dto.response.PenaltyDetailResponse;
 import com.uzumtech.court.dto.response.PenaltyResponse;
 import com.uzumtech.court.entity.OffenseEntity;
