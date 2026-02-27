@@ -18,9 +18,6 @@ import java.util.Optional;
 
 public interface OffenseRepository extends JpaRepository<OffenseEntity, Long> {
 
-    @Query("SELECT COUNT(e) FROM OffenseEntity e WHERE DATE(e.createdAt) = ?1")
-    int countByCreatedAt(LocalDate date);
-
     @EntityGraph(attributePaths = {"penalty"})
     List<OffenseEntity> findByUserIdAndIdNot(Long userId, Long excludeId);
 
