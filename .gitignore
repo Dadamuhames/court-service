@@ -9,6 +9,7 @@ build/
 .env
 */.DS_Store
 .DS_Store
+example.txt
 
 ollama/
 
